@@ -13,7 +13,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 import re
-import urllib2
+import urllib.request
 
 # the e-mail config
 # this is just a simple format,this e-mail doesn't exist.
@@ -44,11 +44,11 @@ def sendEmail(msghtml):
 def check_network():
     while True:
         try:
-            print "Network is Ready!"
+            print ("Network is Ready!")
             break
-        except Exception , e:
-           print e
-           print "Network is not ready,Sleep 5s...."
+        except Exception as e:
+           print (e)
+           print ("Network is not ready,Sleep 5s....")
            time.sleep(10)
     return True
 
@@ -72,15 +72,15 @@ class Getmyip:
                     # if you want to add more,use the format "except try"
                     # make sure the most useful link be the first
                 except:
-                    print "Fail to get the Network ip."
-                    print "Get the LAN ip."
+                    print ("Fail to get the Network ip.")
+                    print ("Get the LAN ip.")
                     myip = get_lan_ip()
         return myip
     def visit(self,url):
-        opener = urllib2.urlopen(url,timeout=20)
+        opener = urllib.request.urlopen(url,timeout=20)
         if url == opener.geturl():
             str = opener.read()
-            print "IP information from",url
+            print ("IP information from",url)
         return re.search('\d+\.\d+\.\d+\.\d+',str).group(0)
 
 def get_network_ip():
@@ -99,7 +99,7 @@ if __name__ == '__main__':
     last_ip = ip_file.read()
     ip_file.close()
     if last_ip == emailip:
-        print "IP not change."
+        print ("IP not change.")
     else:
         print "IP changed. New ip: {}".format(emailip)
         ip_file = open(file_path,"w")
@@ -107,4 +107,4 @@ if __name__ == '__main__':
         ip_file.close()
 
         sendEmail(emailip)
-        print "Successfully send the e-mail."
+        print ("Successfully send the e-mail.")
